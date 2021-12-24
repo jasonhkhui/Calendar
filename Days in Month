@@ -3,6 +3,15 @@ import calendar
 
 now = datetime.now() # need to define now
 
+# to find out which dates are on which days of the week
+monday = [] 
+tuesday = []
+wednesday = []
+thursday = []
+friday = []
+saturday = []
+sunday = []
+
 for x in range(1, (calendar.monthrange(now.year, now.month)[1]+1)): # every day of the current month
     dt = date(now.year, now.month, x) # day of month
     dotw = dt.isoweekday() % 7 # weekday
