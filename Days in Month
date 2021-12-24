@@ -8,17 +8,23 @@ for x in range(1, (calendar.monthrange(now.year, now.month)[1]+1)): # every day 
     dotw = dt.isoweekday() % 7 # weekday
     
     if dotw == 0:
+        sunday.append(x)
         dow = 'Sunday'
     elif dotw == 1:
+        monday.append(x)
         dow = 'Monday'
     elif dotw == 2:
+        tuesday.append(x)
         dow = 'Tuesday'
     elif dotw == 3:
+        wednesday.append(x)
         dow = 'Wednesday'
     elif dotw == 4:
+        thursday.append(x)
         dow = 'Thursday'
     elif dotw == 5:
+        friday.append(x)
         dow = 'Friday'
     elif dotw == 6:
+        saturday.append(x)
         dow = 'Saturday'
-    print(x, dow)
