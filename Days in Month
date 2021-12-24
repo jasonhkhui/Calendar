@@ -4,8 +4,8 @@ import calendar
 now = datetime.now() # need to define now
 
 for x in range(1, (calendar.monthrange(now.year, now.month)[1]+1)): # every day of the current month
-    dt = date(now.year, now.month, x) # first day of month
-    dotw = dt.isoweekday() % 7 # weekday of 1st day of the month
+    dt = date(now.year, now.month, x) # day of month
+    dotw = dt.isoweekday() % 7 # weekday
     
     if dotw == 0:
         dow = 'Sunday'
