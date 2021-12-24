@@ -1,2 +1,5 @@
 from datetime import datetime, date
 import calendar
+
+now = datetime.now()
+print(calendar.monthrange(now.year, now.month)[1]) # How many days in the current month
