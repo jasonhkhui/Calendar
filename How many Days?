@@ -1,5 +1,24 @@
 from datetime import datetime, date
 import calendar
 
+now = datetime.now() # need to define now
+
 for x in range(1, (calendar.monthrange(now.year, now.month)[1]+1)): # every day of the current month
-    print(x)
+    dt = date(now.year, now.month, x) # first day of month
+    dotw = dt.isoweekday() % 7 # weekday of 1st day of the month
+    
+    if dotw == 0:
+        dow = 'Sunday'
+    elif dotw == 1:
+        dow = 'Monday'
+    elif dotw == 2:
+        dow = 'Tuesday'
+    elif dotw == 3:
+        dow = 'Wednesday'
+    elif dotw == 4:
+        dow = 'Thursday'
+    elif dotw == 5:
+        dow = 'Friday'
+    elif dotw == 6:
+        dow = 'Saturday'
+    print(x, dow)
