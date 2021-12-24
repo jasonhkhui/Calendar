@@ -28,4 +28,4 @@ for x in range(1, (calendar.monthrange(now.year, now.month)[1]+1)): # every day 
     elif dotw == 6:
         saturday.append(x)
         dow = 'Saturday'
-    print(x, dow)
+    print(x, dow) # print numeral and day of the week
