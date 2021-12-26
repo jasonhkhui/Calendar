@@ -1,0 +1,127 @@
+from datetime import datetime, date
+import calendar
+!pip install fpdf
+from fpdf import FPDF
+
+class PDF(FPDF):
+    def header(self):
+        self.set_font('Arial', 'B', 32)
+        self.set_text_color(59, 78, 135)
+        self.cell(80)  # Move to the right
+        self.cell(30, 10, f'{month_txt} {year}', 0, 0, 'C')  # Title
+        self.ln(20) # Line break
+
+    def weeks(self):
+        first_day = date(year, month, 1)
+        fdom = first_day.isoweekday()
+
+        # wk 1
+        for x in range(1, fdom): 
+            wk_1.append("")
+        for x in range(1, 8 - len(wk_1)):
+            wk_1.append(x)
+
+        # wk 2
+        for x in range(wk_1[-1]+1, wk_1[-1] + 8):
+            wk_2.append(x)
+
+        # wk 3
+        for x in range(wk_2[-1]+1, wk_2[-1] + 8):
+            wk_3.append(x)
+
+        # wk 4
+        for x in range(wk_3[-1]+1, wk_3[-1] + 8):
+            wk_4.append(x)
+
+        # wk 5
+        if (calendar.monthrange(year, month)[1] - wk_4[-1]) >= 7:
+            for x in range(wk_4[-1]+1, wk_4[-1] + 8):
+                wk_5.append(x)
+            for x in range(7 - len(wk_5)):
+                wk_5.append("")
+        else:
+            for x in range(wk_4[-1]+1, calendar.monthrange(year, month)[1]+1):
+                wk_5.append(x)
+            for x in range(7 - len(wk_5)):
+                wk_5.append("")
+
+        # wk 6
+        if "" not in wk_5 and calendar.monthrange(year, month)[1] not in wk_5:
+            for x in range(wk_5[-1]+1, calendar.monthrange(year, month)[1]+1):
+                wk_6.append(x)
+            for x in range(7 - len(wk_6)):
+                wk_6.append("")
+        else:
+            pass
+
+        global length # change number of rows depending on month
+        global ht # change height of cells depending on month
+        if "" or calendar.monthrange(year, month)[1] in wk_5:
+            length = 5
+            ht = 44
+        elif "" in wk_6:
+            length = 6
+            ht = 38
+    
+    def table_row(self, wk_x):
+        self.set_font('Arial', 'B', 24)
+        self.set_text_color(0, 0, 255)
+        self.wk_x = wk_x
+        mon, tue, wed, thu, fri, sat, sun = wk_x
+
+        wd = 28
+        self.cell(wd, ht, f'{mon}', 1, 0, 'L', fill = False)
+        self.cell(wd, ht, f'{tue}', 1, 0, 'L', fill = False)
+        self.cell(wd, ht, f'{wed}', 1, 0, 'L', fill = False)
+        self.cell(wd, ht, f'{thu}', 1, 0, 'L', fill = False)
+        self.cell(wd, ht, f'{fri}', 1, 0, 'L', fill = False)
+        self.set_text_color(103, 202, 77)
+        self.cell(wd, ht, f'{sat}', 1, 0, 'L', fill = False)
+        self.cell(wd, ht, f'{sun}', 1, 0, 'L', fill = False)
+        self.ln()
+
+    def table(self):
+        for x in range(1,length+1):
+            self.table_row(eval(f'wk_{x}'))
+
+    def month_table(self):
+        self.add_page() # Add page
+        self.set_font('Arial', 'B', 10)
+        self.set_text_color(255, 255, 255)
+        self.set_fill_color(59, 78, 135)
+        wd = 28
+        self.cell(wd, 10, 'Monday', 0, 0, 'C', fill = True)
+        self.cell(wd, 10, 'Tuesday', 0, 0, 'C', fill = True)
+        self.cell(wd, 10, 'Wednesday', 0, 0, 'C', fill = True)
+        self.cell(wd, 10, 'Thursday', 0, 0, 'C', fill = True)
+        self.cell(wd, 10, 'Friday', 0, 0, 'C', fill = True)
+        self.cell(wd, 10, 'Saturday', 0, 0, 'C', fill = True)
+        self.cell(wd, 10, 'Sunday', 0, 0, 'C', fill = True)
+        self.ln()
+        self.table()
+
+    def month_only(self):
+        self.weeks()
+        self.month_table()
+        self.output(f'{month_txt} {year}.pdf') # save the pdf
+
+    def year_only(self):
+        self.weeks()
+        self.month_table()
+        
+all_months = [*range(1, 13)] # 12 months in list
+year = 2022 # year
+
+pdf = PDF(orientation = 'P', unit = 'mm', format='A4') # save FPDF() class into a variable pdf
+
+for month in all_months:
+    wk_1 = []
+    wk_2 = []
+    wk_3 = []
+    wk_4 = []
+    wk_5 = []
+    wk_6 = []
+    month_txt = calendar.month_name[month]
+    pdf.year_only()
+
+pdf.output(f'{year}.pdf') # save the pdf
